@@ -26,6 +26,11 @@ void Game::Initialize( )
 
 void Game::Cleanup( )
 {
+	// Walk cycle 0-11 and 12-22
+	// Fishing 23-35
+	// Fish 36-37
+	// Fishing pole 38
+	// 
 }
 
 void Game::Update( float elapsedSec )
@@ -33,6 +38,7 @@ void Game::Update( float elapsedSec )
 
 	switch (m_State) {
 	case GameState::loading:
+		m_State = GameState::playing;
 		break;
 	case GameState::finishing:
 		break;
@@ -41,6 +47,13 @@ void Game::Update( float elapsedSec )
 		m_Player.Update(elapsedSec);
 		m_Bar.UpdateRect(m_Player.CollidesWithFish(m_Fish.GetPos()));
 		m_Bar.Update(elapsedSec);
+
+		if (m_Bar.HasWon()) {
+			m_State = GameState::finishing;
+		}
+		if (m_Bar.HasLost()) {
+			m_State = GameState::done;
+		}
 		break;
 	}
 

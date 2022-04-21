@@ -33,3 +33,11 @@ void ProgressBar::UpdateRect(bool isInside)
 		m_CurrentValue -= m_PointDelta;
 	}
 }
+
+bool ProgressBar::HasWon() {
+	return m_CurrentValue >= m_MaxValue;
+}
+
+bool ProgressBar::HasLost() {
+	return m_CurrentValue <= 0;
+}

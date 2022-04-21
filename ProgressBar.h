@@ -8,6 +8,8 @@ public:
 	void Draw() const;
 
 	void UpdateRect(bool isInside);
+	bool HasWon();
+	bool HasLost();
 
 private:
 	float m_MaxValue;
