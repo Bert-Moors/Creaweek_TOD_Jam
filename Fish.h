@@ -18,5 +18,10 @@ private:
 	float m_Accel;
 	float m_Velocity;
 	const float m_Drag;
+	const float m_MaxAcceleration;
+
+	void AddTime(float elapsedSec);
+	void AddDrag(float elapsedSec);
+	void Clamp();
 };
 

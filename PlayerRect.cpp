@@ -9,6 +9,9 @@ PlayerRect::PlayerRect(const Rectf& rect)
 	,m_Velocity{0}
 	,m_Shape{rect}
 	,m_Accel{0}
+	,m_Restitution{0.65f}
+	,m_JumpForce{1000}
+	,m_MaxSpeed{300}
 {
 
 }
@@ -19,22 +22,9 @@ void PlayerRect::Update( float elapsedSec)
 	m_Velocity += m_Accel * elapsedSec;
 	m_Shape.bottom += m_Velocity * elapsedSec;
 
-	if (m_Shape.bottom + m_Shape.height > m_Bounds.height + m_Bounds.bottom)
-	{
-		m_Shape.bottom = m_Bounds.height + m_Bounds.bottom - m_Shape.height;
-		m_Velocity = 0;
-	}
-	if (m_Shape.bottom < m_Bounds.bottom)
-	{
-		m_Shape.bottom = m_Bounds.bottom;
-		m_Velocity *= -0.65f;
-	}
+	Clamp();
+	CheckUserInput(elapsedSec);
 
-	const Uint8* pStates = SDL_GetKeyboardState(nullptr);
-	if (pStates[SDL_SCANCODE_J] && m_Velocity <= 300)
-	{
-		m_Velocity += 1000 * elapsedSec;
-	}
 }
 
 
@@ -52,4 +42,26 @@ void PlayerRect::SetBounds(const Rectf& rect)
 bool PlayerRect::CollidesWithFish(const Point2f& pos)
 {
 	return utils::IsPointInRect(pos, m_Shape);
+}
+
+void PlayerRect::Clamp() {
+	if (m_Shape.bottom + m_Shape.height > m_Bounds.height + m_Bounds.bottom)
+	{
+		m_Shape.bottom = m_Bounds.height + m_Bounds.bottom - m_Shape.height;
+		m_Velocity = 0;
+	}
+	if (m_Shape.bottom < m_Bounds.bottom)
+	{
+		m_Shape.bottom = m_Bounds.bottom;
+		m_Velocity *= -m_Restitution;
+	}
+}
+
+void PlayerRect::CheckUserInput(float elapsedSec) {
+
+	const Uint8* pStates = SDL_GetKeyboardState(nullptr);
+	if (pStates[SDL_SCANCODE_J] && m_Velocity <= m_MaxSpeed)
+	{
+		m_Velocity += m_JumpForce * elapsedSec;
+	}
 }

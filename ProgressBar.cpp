@@ -6,6 +6,7 @@ ProgressBar::ProgressBar(float max, float start)
 	:m_MaxValue{max}
 	,m_CurrentValue{start}
 	,m_Shape{50,50,50,start}
+	,m_PointDelta{0.2f}
 {
 
 }
@@ -25,10 +26,10 @@ void ProgressBar::UpdateRect(bool isInside)
 {
 	if (isInside && m_CurrentValue < m_MaxValue)
 	{
-		m_CurrentValue += 0.2f;
+		m_CurrentValue += m_PointDelta * 2;
 	}
 	if (!isInside && m_CurrentValue > 0)
 	{
-	m_CurrentValue -= 0.2f;
+		m_CurrentValue -= m_PointDelta;
 	}
 }

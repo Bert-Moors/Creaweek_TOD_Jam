@@ -4,6 +4,8 @@
 #include "PlayerRect.h"
 #include "ProgressBar.h"
 
+enum class GameState{loading, playing, finishing, done};
+
 class Game final
 {
 public:
@@ -32,6 +34,7 @@ private:
 	PlayerRect m_Player;
 	ProgressBar m_Bar;
 	Rectf m_Container;
+	GameState m_State;
 
 	// FUNCTIONS
 	void Initialize( );

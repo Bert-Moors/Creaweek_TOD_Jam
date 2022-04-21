@@ -21,6 +21,7 @@ void Game::Initialize( )
 {
 	m_Fish.SetBounds(m_Container);
 	m_Player.SetBounds(m_Container);
+	m_State = GameState::loading;
 }
 
 void Game::Cleanup( )
@@ -29,10 +30,19 @@ void Game::Cleanup( )
 
 void Game::Update( float elapsedSec )
 {
-	m_Fish.Update(elapsedSec);
-	m_Player.Update(elapsedSec);
-	m_Bar.UpdateRect(m_Player.CollidesWithFish(m_Fish.GetPos()));
-	m_Bar.Update(elapsedSec);
+
+	switch (m_State) {
+	case GameState::loading:
+		break;
+	case GameState::finishing:
+		break;
+	case GameState::playing:
+		m_Fish.Update(elapsedSec);
+		m_Player.Update(elapsedSec);
+		m_Bar.UpdateRect(m_Player.CollidesWithFish(m_Fish.GetPos()));
+		m_Bar.Update(elapsedSec);
+		break;
+	}
 
 	// Check keyboard state
 	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
@@ -49,9 +59,19 @@ void Game::Update( float elapsedSec )
 void Game::Draw( ) const
 {
 	ClearBackground( );
-	m_Player.Draw();
-	m_Fish.Draw();
-	m_Bar.Draw();
+
+	switch (m_State) {
+		case GameState::loading:
+			break;
+		case GameState::finishing:
+			break;
+		case GameState::playing:
+			m_Player.Draw();
+			m_Fish.Draw();
+			m_Bar.Draw();
+			break;
+	}
+
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )

@@ -12,6 +12,7 @@ public:
 private:
 	float m_MaxValue;
 	float m_CurrentValue;
+	const float m_PointDelta;
 
 	Rectf m_Shape;
 };
