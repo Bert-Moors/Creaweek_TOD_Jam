@@ -60,6 +60,24 @@
     <ClCompile Include="ProgressBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OAMEntry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OAMTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -103,6 +121,24 @@
     </ClInclude>
     <ClInclude Include="ProgressBar.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="OAMEntry.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="OAMTable.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
