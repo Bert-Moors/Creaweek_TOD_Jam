@@ -6,7 +6,7 @@ Game::Game( const Window& window )
 	:m_Window{ window }
 	, m_Fish{Point2f{m_Window.width/2,m_Window.height / 2}, 50}
 	, m_Container{ 0, 0, m_Window.width, m_Window.height }
-	, m_Player{Rectf{m_Window.width/2,100,50,50}}
+	, m_Player{Rectf{m_Window.width/2,100,50,100}}
 	, m_Bar{300, 33}
 {
 	Initialize( );

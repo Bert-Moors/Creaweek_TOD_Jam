@@ -5,7 +5,7 @@
 
 PlayerRect::PlayerRect(const Rectf& rect)
 	:m_Bounds{}
-	,m_GravityAccel{-100000}
+	,m_GravityAccel{-30000}
 	,m_Velocity{0}
 	,m_Shape{rect}
 	,m_Accel{0}
@@ -33,7 +33,7 @@ void PlayerRect::Update( float elapsedSec)
 	const Uint8* pStates = SDL_GetKeyboardState(nullptr);
 	if (pStates[SDL_SCANCODE_J] && m_Velocity <= 300)
 	{
-		m_Velocity += 10;
+		m_Velocity += 1000 * elapsedSec;
 	}
 }
 
