@@ -1,8 +1,13 @@
 #include "pch.h"
+#include <iostream>
 #include "Game.h"
 
 Game::Game( const Window& window ) 
 	:m_Window{ window }
+	, m_Fish{Point2f{m_Window.width/2,m_Window.height / 2}, 50}
+	, m_Container{ 0, 0, m_Window.width, m_Window.height }
+	, m_Player{Rectf{m_Window.width/2,100,50,50}}
+	, m_Bar{300, 33}
 {
 	Initialize( );
 }
@@ -14,7 +19,8 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
-	
+	m_Fish.SetBounds(m_Container);
+	m_Player.SetBounds(m_Container);
 }
 
 void Game::Cleanup( )
@@ -23,6 +29,11 @@ void Game::Cleanup( )
 
 void Game::Update( float elapsedSec )
 {
+	m_Fish.Update(elapsedSec);
+	m_Player.Update(elapsedSec);
+	m_Bar.UpdateRect(m_Player.CollidesWithFish(m_Fish.GetPos()));
+	m_Bar.Update(elapsedSec);
+
 	// Check keyboard state
 	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
 	//if ( pStates[SDL_SCANCODE_RIGHT] )
@@ -38,6 +49,9 @@ void Game::Update( float elapsedSec )
 void Game::Draw( ) const
 {
 	ClearBackground( );
+	m_Player.Draw();
+	m_Fish.Draw();
+	m_Bar.Draw();
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )

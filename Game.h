@@ -1,5 +1,9 @@
 #pragma once
 
+#include "Fish.h"
+#include "PlayerRect.h"
+#include "ProgressBar.h"
+
 class Game final
 {
 public:
@@ -23,6 +27,11 @@ public:
 private:
 	// DATA MEMBERS
 	const Window m_Window;
+
+	Fish m_Fish;
+	PlayerRect m_Player;
+	ProgressBar m_Bar;
+	Rectf m_Container;
 
 	// FUNCTIONS
 	void Initialize( );
