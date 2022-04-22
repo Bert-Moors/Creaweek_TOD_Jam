@@ -3,7 +3,7 @@
 #include "utils.h"
 #include "Fish.h"
 
-Fish::Fish(const Point2f& pos, float dirChangeChance)
+Fish::Fish(float dirChangeChance, OAMEntry* oam)
 	:m_AccTime{0}
 	,m_MaxTime{1}
 	,m_DirChangeChance{dirChangeChance}
@@ -11,7 +11,7 @@ Fish::Fish(const Point2f& pos, float dirChangeChance)
 	,m_Drag{10}
 	,m_Velocity{0}
 	,m_Bounds{}
-	,m_Shape{pos.x, pos.y, 20,20}
+	,m_Oam{oam}
 	,m_MaxAcceleration{300.0f}
 {
 
@@ -21,17 +21,10 @@ void Fish::Update(float elapsedSec)
 {
 	AddTime(elapsedSec);
 	AddDrag(elapsedSec);
-	
+
 	m_Velocity += m_Accel * elapsedSec;
-	m_Shape.bottom += m_Velocity * elapsedSec;
-
+	m_Oam->AddPosition(0, int(m_Velocity * elapsedSec));
 	Clamp();
-}
-
-void Fish::Draw() const
-{
-	utils::SetColor(Color4f{ 0.2f, 0.7f, 0.2f, 1 });
-	utils::FillRect(m_Shape);
 }
 
 void Fish::SetBounds(const Rectf& rect)
@@ -41,7 +34,7 @@ void Fish::SetBounds(const Rectf& rect)
 
 Point2f Fish::GetPos() const
 {
-	return Point2f{m_Shape.left, m_Shape.bottom};
+	return m_Oam->GetPosition();
 }
 
 void Fish::AddTime(float elapsedSec) {
@@ -67,12 +60,13 @@ void Fish::AddDrag(float elapsedSec) {
 }
 
 void Fish::Clamp() {
-	if (m_Shape.bottom + m_Shape.height / 2 > m_Bounds.height + m_Bounds.bottom)
+	float posY{ m_Oam->GetPosition().y};
+	if (posY + 4 > m_Bounds.height + m_Bounds.bottom)
 	{
-		m_Shape.bottom = m_Bounds.height + m_Bounds.bottom - m_Shape.height / 2;
+		m_Oam->SetPosition(0, int(m_Bounds.height + m_Bounds.bottom - 4));
 	}
-	if (m_Shape.bottom - m_Shape.height / 2< m_Bounds.bottom)
+	if (posY - 4 < m_Bounds.bottom)
 	{
-		m_Shape.bottom = m_Bounds.bottom + m_Shape.height / 2;
+		m_Oam->SetPosition(0, int(m_Bounds.bottom + 4));
 	}
 }

@@ -3,11 +3,12 @@
 #include <iostream>
 #include "PlayerRect.h"
 
-PlayerRect::PlayerRect(const Rectf& rect)
+PlayerRect::PlayerRect(OAMEntry* top, OAMEntry* bottom)
 	:m_Bounds{}
 	,m_GravityAccel{-30000}
 	,m_Velocity{0}
-	,m_Shape{rect}
+	,m_Top{top}
+	,m_Bottom{bottom}
 	,m_Accel{0}
 	,m_Restitution{0.65f}
 	,m_JumpForce{1000}
@@ -20,18 +21,12 @@ void PlayerRect::Update( float elapsedSec)
 {
 	m_Accel = m_GravityAccel * elapsedSec;
 	m_Velocity += m_Accel * elapsedSec;
-	m_Shape.bottom += m_Velocity * elapsedSec;
+	m_Top->AddPosition(0, int(m_Velocity * elapsedSec));
+	m_Bottom->AddPosition(0, int(m_Velocity * elapsedSec));
 
 	Clamp();
 	CheckUserInput(elapsedSec);
 
-}
-
-
-void PlayerRect::Draw() const
-{
-	utils::SetColor(Color4f{ 0.7f, 0.1f, 0.2f, 1 });
-	utils::FillRect(m_Shape);
 }
 
 void PlayerRect::SetBounds(const Rectf& rect)
@@ -41,18 +36,23 @@ void PlayerRect::SetBounds(const Rectf& rect)
 
 bool PlayerRect::CollidesWithFish(const Point2f& pos)
 {
-	return utils::IsPointInRect(pos, m_Shape);
+	return utils::IsPointInRect(pos, Rectf{ m_Bottom->GetPosition().x, m_Bottom->GetPosition().y, 8,16 });
 }
 
 void PlayerRect::Clamp() {
-	if (m_Shape.bottom + m_Shape.height > m_Bounds.height + m_Bounds.bottom)
+
+	float posY{ m_Bottom->GetPosition().y};
+
+	if (posY + 16 > m_Bounds.height + m_Bounds.bottom)
 	{
-		m_Shape.bottom = m_Bounds.height + m_Bounds.bottom - m_Shape.height;
+		m_Bottom->SetPosition(0, int(m_Bounds.height + m_Bounds.bottom - 16));
+		m_Top->SetPosition(0, int(m_Bounds.height + m_Bounds.bottom - 8));
 		m_Velocity = 0;
 	}
-	if (m_Shape.bottom < m_Bounds.bottom)
+	if (posY < m_Bounds.bottom)
 	{
-		m_Shape.bottom = m_Bounds.bottom;
+		m_Bottom->SetPosition(0, int(m_Bounds.bottom));
+		m_Top->SetPosition(0, int(m_Bounds.bottom + 8));
 		m_Velocity *= -m_Restitution;
 	}
 }

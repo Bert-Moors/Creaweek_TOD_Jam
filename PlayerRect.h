@@ -1,17 +1,19 @@
 #pragma once
+#include "OAMEntry.h"
 class PlayerRect
 {
 public:
-	PlayerRect(const Rectf& rect);
+	PlayerRect(OAMEntry* top, OAMEntry* bottom);
 
 	void Update(float elapsedSec);
-	void Draw() const;
 
 	void SetBounds(const Rectf& rect);
 	bool CollidesWithFish(const Point2f& point);
 
 private:
-	Rectf m_Shape, m_Bounds;
+	Rectf m_Bounds;
+	OAMEntry* m_Top;
+	OAMEntry* m_Bottom;
 	const float m_GravityAccel;
 	float m_Velocity, m_Accel;
 	const float m_Restitution;

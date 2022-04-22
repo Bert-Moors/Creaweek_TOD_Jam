@@ -1,10 +1,6 @@
 #pragma once
-
-#include "Fish.h"
-#include "PlayerRect.h"
-#include "ProgressBar.h"
-
-enum class GameState{loading, playing, finishing, done};
+#include "FishingLevel.h"
+#include "OAMEntry.h"
 
 class Game final
 {
@@ -29,12 +25,7 @@ public:
 private:
 	// DATA MEMBERS
 	const Window m_Window;
-
-	Fish m_Fish;
-	PlayerRect m_Player;
-	ProgressBar m_Bar;
-	Rectf m_Container;
-	GameState m_State;
+	FishingLevel m_Level;
 
 	// FUNCTIONS
 	void Initialize( );

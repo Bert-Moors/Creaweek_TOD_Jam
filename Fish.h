@@ -1,17 +1,19 @@
 #pragma once
+#include "OAMEntry.h"
+
 class Fish
 {
 public:
-	Fish(const Point2f& pos, float dirChangeChance);
+	Fish(float dirChangeChance, OAMEntry* oam);
 	
 	void Update(float elapsedSed);
-	void Draw() const;
 	void SetBounds(const Rectf& bounds);
 	Point2f GetPos() const;
 
 private:
 	Rectf m_Bounds;
-	Rectf m_Shape;
+	OAMEntry* m_Oam;
+	//Rectf m_Shape;
 	const float m_DirChangeChance;
 	float m_AccTime;
 	const float m_MaxTime;
